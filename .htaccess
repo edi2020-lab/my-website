@@ -1,35 +1,35 @@
 <IfModule mod_rewrite.c>
   RewriteEngine On
+  RewriteBase /
 
-  # ── Jika file/folder fisik ada, serve langsung (aset, CSS, JS, gambar) ──
+  # Jika file fisik / folder ada → serve langsung
   RewriteCond %{REQUEST_FILENAME} -f [OR]
   RewriteCond %{REQUEST_FILENAME} -d
   RewriteRule ^ - [L]
 
-  # ── Semua request lain → index.html (React Router fallback) ──
+  # Semua route lain → index.html (React Router fallback)
   RewriteRule ^ index.html [L]
 </IfModule>
 
-# ── Cache aset statis (opsional tapi disarankan) ──────────────────────────
+# Cache aset statis (hash filename = aman 1 tahun)
 <IfModule mod_expires.c>
   ExpiresActive On
   ExpiresByType text/html                 "access plus 0 seconds"
   ExpiresByType application/javascript    "access plus 1 year"
   ExpiresByType text/css                  "access plus 1 year"
   ExpiresByType image/png                 "access plus 1 year"
-  ExpiresByType image/jpg                 "access plus 1 year"
   ExpiresByType image/jpeg                "access plus 1 year"
   ExpiresByType image/webp                "access plus 1 year"
   ExpiresByType image/svg+xml             "access plus 1 year"
   ExpiresByType font/woff2                "access plus 1 year"
 </IfModule>
 
-# ── Gzip compression ──────────────────────────────────────────────────────
+# Gzip compression
 <IfModule mod_deflate.c>
   AddOutputFilterByType DEFLATE text/html text/css application/javascript application/json
 </IfModule>
 
-# ── Security headers (opsional) ───────────────────────────────────────────
+# Security headers
 <IfModule mod_headers.c>
   Header always set X-Content-Type-Options "nosniff"
   Header always set X-Frame-Options "SAMEORIGIN"
